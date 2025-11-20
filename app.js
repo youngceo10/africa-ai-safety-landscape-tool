@@ -131,19 +131,6 @@ function updateLegend(metric) {
                 </div>
             `;
             break;
-        
-        case 'aisafety':
-            legendHTML += `
-                <div class="legend-item">
-                    <div class="legend-color" style="background: rgba(24, 44, 88, 0.1);"></div>
-                    <span>No Evidence (30 countries)</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color" style="background: #182C58;"></div>
-                    <span>Has Evidence (11 countries)</span>
-                </div>
-            `;
-            break;
     }
     
     legendContainer.innerHTML = legendHTML;
@@ -161,7 +148,6 @@ function updateInfoPanel(countryName) {
     const raiData = getCountryData(countryName, 'rai');
     const dpData = getCountryData(countryName, 'dataprotection');
     const aiData = getCountryData(countryName, 'aistrategy');
-    const safetyData = getCountryData(countryName, 'aisafety');
     const dpLink = getDataProtectionLink(countryName);
     
     let infoHTML = `
@@ -169,16 +155,28 @@ function updateInfoPanel(countryName) {
             <h3 class="info-title">${standardName}</h3>
     `;
     
-    // RAI Index Section
-    if (raiData) {
-        infoHTML += `
-            <div class="info-metric">
-                <div class="metric-label">RAI Index Score</div>
-                <div class="metric-value">${raiData.score}</div>
-                <div class="metric-detail">Global Rank: #${raiData.rank}</div>
-            </div>
-        `;
-    } else {
+    // Show current metric first
+    if (currentMetric === 'rai' && raiData) {
+        infoHTML += getRaiSection(raiData);
+    } else if (currentMetric === 'dataprotection' && dpData) {
+        infoHTML += getDpSection(dpData, dpLink);
+    } else if (currentMetric === 'aistrategy' && aiData) {
+        infoHTML += getAiSection(aiData);
+    }
+    
+    // Then show other metrics
+    if (currentMetric !== 'rai' && raiData) {
+        infoHTML += getRaiSection(raiData);
+    }
+    if (currentMetric !== 'dataprotection' && dpData) {
+        infoHTML += getDpSection(dpData, dpLink);
+    }
+    if (currentMetric !== 'aistrategy' && aiData) {
+        infoHTML += getAiSection(aiData);
+    }
+    
+    // Show "No data" messages for missing metrics
+    if (!raiData) {
         infoHTML += `
             <div class="info-metric">
                 <div class="metric-label">RAI Index Score</div>
@@ -186,22 +184,7 @@ function updateInfoPanel(countryName) {
             </div>
         `;
     }
-    
-    // Data Protection Section
-    if (dpData) {
-        const statusClass = dpData.status === 'enacted' ? 'positive' : 'neutral';
-        const statusText = dpData.status === 'enacted' ? 'Enacted' : 'Draft';
-        const linkHTML = dpLink ? `<div class="metric-detail"><a href="${dpLink}" target="_blank" style="color: #FF6347; text-decoration: underline;">View Law →</a></div>` : '';
-        infoHTML += `
-            <div class="info-metric">
-                <div class="metric-label">Data Protection Law</div>
-                <div class="metric-status ${statusClass}">${statusText}</div>
-                <div class="metric-detail">${dpData.law}</div>
-                ${dpData.year ? `<div class="metric-detail">Year: ${dpData.year}</div>` : ''}
-                ${linkHTML}
-            </div>
-        `;
-    } else {
+    if (!dpData) {
         infoHTML += `
             <div class="info-metric">
                 <div class="metric-label">Data Protection Law</div>
@@ -209,20 +192,7 @@ function updateInfoPanel(countryName) {
             </div>
         `;
     }
-    
-    // AI Strategy Section
-    if (aiData) {
-        const statusClass = aiData.status === 'implemented' ? 'positive' : 'neutral';
-        const statusText = aiData.status === 'implemented' ? 'Implemented' : 'In Planning';
-        infoHTML += `
-            <div class="info-metric">
-                <div class="metric-label">AI Strategy</div>
-                <div class="metric-status ${statusClass}">${statusText}</div>
-                <div class="metric-detail">${aiData.name}</div>
-                ${aiData.year ? `<div class="metric-detail">Year: ${aiData.year}</div>` : ''}
-            </div>
-        `;
-    } else {
+    if (!aiData) {
         infoHTML += `
             <div class="info-metric">
                 <div class="metric-label">AI Strategy</div>
@@ -231,31 +201,46 @@ function updateInfoPanel(countryName) {
         `;
     }
     
-    // AI Safety Initiatives Section
-    if (safetyData) {
-        const pillars = [];
-        if (safetyData.governmentFrameworks) pillars.push('Gov. Frameworks');
-        if (safetyData.governmentActions) pillars.push('Gov. Actions');
-        if (safetyData.nonStateActors) pillars.push('Non-State Actors');
-        
-        infoHTML += `
-            <div class="info-metric">
-                <div class="metric-label">AI Safety Initiatives</div>
-                <div class="metric-status positive">Evidence Found</div>
-                <div class="metric-detail">Active in: ${pillars.join(', ')}</div>
-            </div>
-        `;
-    } else {
-        infoHTML += `
-            <div class="info-metric">
-                <div class="metric-label">AI Safety Initiatives</div>
-                <div class="metric-detail">No evidence found</div>
-            </div>
-        `;
-    }
-    
     infoHTML += '</div>';
     infoPanel.innerHTML = infoHTML;
+}
+
+function getRaiSection(raiData) {
+    return `
+        <div class="info-metric">
+            <div class="metric-label">RAI Index Score</div>
+            <div class="metric-value">${raiData.score}</div>
+            <div class="metric-detail">Global Rank: #${raiData.rank}</div>
+        </div>
+    `;
+}
+
+function getDpSection(dpData, dpLink) {
+    const statusClass = dpData.status === 'enacted' ? 'positive' : 'neutral';
+    const statusText = dpData.status === 'enacted' ? 'Enacted' : 'Draft';
+    const linkHTML = dpLink ? `<div class="metric-detail"><a href="${dpLink}" target="_blank" rel="noopener noreferrer">${dpLink}</a></div>` : '';
+    return `
+        <div class="info-metric">
+            <div class="metric-label">Data Protection Law</div>
+            <div class="metric-status ${statusClass}">${statusText}</div>
+            <div class="metric-detail">${dpData.law}</div>
+            ${dpData.year ? `<div class="metric-detail">Year: ${dpData.year}</div>` : ''}
+            ${linkHTML}
+        </div>
+    `;
+}
+
+function getAiSection(aiData) {
+    const statusClass = aiData.status === 'implemented' ? 'positive' : 'neutral';
+    const statusText = aiData.status === 'implemented' ? 'Implemented' : 'In Planning';
+    return `
+        <div class="info-metric">
+            <div class="metric-label">AI Strategy</div>
+            <div class="metric-status ${statusClass}">${statusText}</div>
+            <div class="metric-detail">${aiData.name}</div>
+            ${aiData.year ? `<div class="metric-detail">Year: ${aiData.year}</div>` : ''}
+        </div>
+    `;
 }
 
 // ============================================

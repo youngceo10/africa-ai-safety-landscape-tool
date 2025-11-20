@@ -307,6 +307,17 @@ body {
     margin-top: var(--space-xs);
 }
 
+.metric-detail a {
+    color: var(--ej-red);
+    text-decoration: none;
+    border-bottom: 1px solid var(--ej-red);
+    transition: opacity 0.2s;
+}
+
+.metric-detail a:hover {
+    opacity: 0.7;
+}
+
 .metric-status {
     display: inline-block;
     padding: var(--space-xs) var(--space-sm);
