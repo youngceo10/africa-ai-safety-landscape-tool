@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - AI Safety Africa Data Editor</title>
+    <style>
+        :root {
+            --ej-navy: #182C58;
+            --ej-red: #FF6347;
+            --ej-cream: #FFFAE9;
+            --ej-white: #FFFFFF;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--ej-cream);
+            color: var(--ej-navy);
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: var(--ej-navy);
+            color: white;
+            padding: 20px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+        }
+        
+        .btn {
+            background: var(--ej-red);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: opacity 0.2s;
+        }
+        
+        .btn:hover {
+            opacity: 0.8;
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: var(--ej-navy);
+            border: 2px solid var(--ej-navy);
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--ej-navy);
+            padding-bottom: 10px;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--ej-navy);
+            opacity: 0.6;
+            transition: all 0.2s;
+        }
+        
+        .tab.active {
+            opacity: 1;
+            border-bottom: 3px solid var(--ej-red);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .editor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .country-card {
+            background: white;
+            border: 1px solid var(--ej-navy);
+            border-radius: 4px;
+            padding: 15px;
+        }
+        
+        .country-card h3 {
+            color: var(--ej-navy);
+            margin-bottom: 15px;
+            font-size: 18px;
+            border-bottom: 2px solid var(--ej-red);
+            padding-bottom: 5px;
+        }
+        
+        .form-group {
+            margin-bottom: 12px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--ej-navy);
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid var(--ej-navy);
+            border-radius: 3px;
+            font-size: 14px;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--ej-red);
+        }
+        
+        .checkbox-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            margin-right: 5px;
+        }
+        
+        .add-new {
+            background: white;
+            border: 2px dashed var(--ej-navy);
+            border-radius: 4px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .add-new:hover {
+            background: var(--ej-cream);
+            border-color: var(--ej-red);
+        }
+        
+        .actions {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(24, 44, 88, 0.3);
+        }
+        
+        .status {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-weight: 600;
+            display: none;
+        }
+        
+        .status.success {
+            background: #4CAF50;
+            color: white;
+            display: block;
+        }
+        
+        .status.error {
+            background: var(--ej-red);
+            color: white;
+            display: block;
+        }
+        
+        .search-box {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 2px solid var(--ej-navy);
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        .delete-btn {
+            background: var(--ej-red);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔐 Admin Panel - AI Safety Africa Data Editor</h1>
+            <div>
+                <button class="btn btn-secondary" onclick="exportData()">📥 Export Data</button>
+                <button class="btn" onclick="window.open('index.html', '_blank')">👁️ Preview Site</button>
+            </div>
+        </div>
+        
+        <div class="status" id="status"></div>
+        
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('rai')">RAI Index</button>
+            <button class="tab" onclick="switchTab('dataprotection')">Data Protection Laws</button>
+            <button class="tab" onclick="switchTab('aistrategy')">AI Strategy</button>
+            <button class="tab" onclick="switchTab('aisafety')">AI Safety Initiatives</button>
+        </div>
+        
+        <input type="text" class="search-box" id="searchBox" placeholder="🔍 Search countries...">
+        
+        <!-- RAI Index Tab -->
+        <div id="rai-tab" class="tab-content active">
+            <div class="editor-grid" id="rai-grid"></div>
+            <div class="add-new" onclick="addNew('rai')">
+                <h3>+ Add New Country to RAI Index</h3>
+            </div>
+        </div>
+        
+        <!-- Data Protection Tab -->
+        <div id="dataprotection-tab" class="tab-content">
+            <div class="editor-grid" id="dataprotection-grid"></div>
+            <div class="add-new" onclick="addNew('dataprotection')">
+                <h3>+ Add New Data Protection Entry</h3>
+            </div>
+        </div>
+        
+        <!-- AI Strategy Tab -->
+        <div id="aistrategy-tab" class="tab-content">
+            <div class="editor-grid" id="aistrategy-grid"></div>
+            <div class="add-new" onclick="addNew('aistrategy')">
+                <h3>+ Add New AI Strategy Entry</h3>
+            </div>
+        </div>
+        
+        <!-- AI Safety Initiatives Tab -->
+        <div id="aisafety-tab" class="tab-content">
+            <div class="editor-grid" id="aisafety-grid"></div>
+            <div class="add-new" onclick="addNew('aisafety')">
+                <h3>+ Add New AI Safety Entry</h3>
+            </div>
+        </div>
+        
+        <div class="actions">
+            <button class="btn btn-secondary" onclick="resetChanges()">↺ Reset</button>
+            <button class="btn" onclick="saveChanges()">💾 Save Changes</button>
+        </div>
+    </div>
+    
+    <script src="data.js"></script>
+    <script>
+        let currentTab = 'rai';
+        let dataBackup = JSON.parse(JSON.stringify(africanCountriesData));
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            renderAll();
+            setupSearch();
+        });
+        
+        function switchTab(tab) {
+            currentTab = tab;
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(`${tab}-tab`).classList.add('active');
+        }
+        
+        function renderAll() {
+            renderRAI();
+            renderDataProtection();
+            renderAIStrategy();
+            renderAISafety();
+        }
+        
+        function renderRAI() {
+            const grid = document.getElementById('rai-grid');
+            grid.innerHTML = '';
+            
+            Object.entries(africanCountriesData.raiIndex).forEach(([country, data]) => {
+                const card = document.createElement('div');
+                card.className = 'country-card';
+                card.innerHTML = `
+                    <h3>${country}</h3>
+                    <div class="form-group">
+                        <label>Score</label>
+                        <input type="number" step="0.01" value="${data.score}" 
+                               onchange="updateRAI('${country}', 'score', parseFloat(this.value))">
+                    </div>
+                    <div class="form-group">
+                        <label>Global Rank</label>
+                        <input type="number" value="${data.rank}" 
+                               onchange="updateRAI('${country}', 'rank', parseInt(this.value))">
+                    </div>
+                    <button class="delete-btn" onclick="deleteEntry('raiIndex', '${country}')">🗑️ Delete</button>
+                `;
+                grid.appendChild(card);
+            });
+        }
+        
+        function renderDataProtection() {
+            const grid = document.getElementById('dataprotection-grid');
+            grid.innerHTML = '';
+            
+            Object.entries(africanCountriesData.dataProtection).forEach(([country, data]) => {
+                const card = document.createElement('div');
+                card.className = 'country-card';
+                card.innerHTML = `
+                    <h3>${country}</h3>
+                    <div class="form-group">
+                        <label>Status</label>
+                        <select onchange="updateDP('${country}', 'status', this.value)">
+                            <option value="enacted" ${data.status === 'enacted' ? 'selected' : ''}>Enacted</option>
+                            <option value="draft" ${data.status === 'draft' ? 'selected' : ''}>Draft</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Law Name</label>
+                        <input type="text" value="${data.law}" 
+                               onchange="updateDP('${country}', 'law', this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label>Year</label>
+                        <input type="number" value="${data.year || ''}" 
+                               onchange="updateDP('${country}', 'year', parseInt(this.value) || null)">
+                    </div>
+                    <div class="form-group">
+                        <label>Law URL (Optional)</label>
+                        <input type="url" value="${africanCountriesData.dataProtectionLinks[country] || ''}" 
+                               onchange="updateDPLink('${country}', this.value)">
+                    </div>
+                    <button class="delete-btn" onclick="deleteEntry('dataProtection', '${country}')">🗑️ Delete</button>
+                `;
+                grid.appendChild(card);
+            });
+        }
+        
+        function renderAIStrategy() {
+            const grid = document.getElementById('aistrategy-grid');
+            grid.innerHTML = '';
+            
+            Object.entries(africanCountriesData.aiStrategy).forEach(([country, data]) => {
+                const card = document.createElement('div');
+                card.className = 'country-card';
+                card.innerHTML = `
+                    <h3>${country}</h3>
+                    <div class="form-group">
+                        <label>Status</label>
+                        <select onchange="updateAI('${country}', 'status', this.value)">
+                            <option value="implemented" ${data.status === 'implemented' ? 'selected' : ''}>Implemented</option>
+                            <option value="planning" ${data.status === 'planning' ? 'selected' : ''}>Planning</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Strategy Name</label>
+                        <input type="text" value="${data.name}" 
+                               onchange="updateAI('${country}', 'name', this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label>Year</label>
+                        <input type="number" value="${data.year || ''}" 
+                               onchange="updateAI('${country}', 'year', parseInt(this.value) || null)">
+                    </div>
+                    <button class="delete-btn" onclick="deleteEntry('aiStrategy', '${country}')">🗑️ Delete</button>
+                `;
+                grid.appendChild(card);
+            });
+        }
+        
+        function renderAISafety() {
+            const grid = document.getElementById('aisafety-grid');
+            grid.innerHTML = '';
+            
+            Object.entries(africanCountriesData.aiSafetyInitiatives).forEach(([country, data]) => {
+                const card = document.createElement('div');
+                card.className = 'country-card';
+                card.innerHTML = `
+                    <h3>${country}</h3>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="gf-${country}" ${data.governmentFrameworks ? 'checked' : ''}
+                               onchange="updateSafety('${country}', 'governmentFrameworks', this.checked)">
+                        <label for="gf-${country}">Government Frameworks</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="ga-${country}" ${data.governmentActions ? 'checked' : ''}
+                               onchange="updateSafety('${country}', 'governmentActions', this.checked)">
+                        <label for="ga-${country}">Government Actions</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="nsa-${country}" ${data.nonStateActors ? 'checked' : ''}
+                               onchange="updateSafety('${country}', 'nonStateActors', this.checked)">
+                        <label for="nsa-${country}">Non-State Actors</label>
+                    </div>
+                    <button class="delete-btn" onclick="deleteEntry('aiSafetyInitiatives', '${country}')">🗑️ Delete</button>
+                `;
+                grid.appendChild(card);
+            });
+        }
+        
+        function updateRAI(country, field, value) {
+            africanCountriesData.raiIndex[country][field] = value;
+            showStatus('Updated', 'success');
+        }
+        
+        function updateDP(country, field, value) {
+            africanCountriesData.dataProtection[country][field] = value;
+            showStatus('Updated', 'success');
+        }
+        
+        function updateDPLink(country, value) {
+            if (value) {
+                africanCountriesData.dataProtectionLinks[country] = value;
+            } else {
+                delete africanCountriesData.dataProtectionLinks[country];
+            }
+            showStatus('Link updated', 'success');
+        }
+        
+        function updateAI(country, field, value) {
+            africanCountriesData.aiStrategy[country][field] = value;
+            showStatus('Updated', 'success');
+        }
+        
+        function updateSafety(country, field, value) {
+            africanCountriesData.aiSafetyInitiatives[country][field] = value;
+            africanCountriesData.aiSafetyInitiatives[country].hasEvidence = 
+                africanCountriesData.aiSafetyInitiatives[country].governmentFrameworks ||
+                africanCountriesData.aiSafetyInitiatives[country].governmentActions ||
+                africanCountriesData.aiSafetyInitiatives[country].nonStateActors;
+            showStatus('Updated', 'success');
+        }
+        
+        function deleteEntry(category, country) {
+            if (confirm(`Delete ${country} from ${category}?`)) {
+                delete africanCountriesData[category][country];
+                renderAll();
+                showStatus('Deleted', 'success');
+            }
+        }
+        
+        function addNew(type) {
+            const country = prompt('Enter country name:');
+            if (!country) return;
+            
+            switch(type) {
+                case 'rai':
+                    africanCountriesData.raiIndex[country] = { score: 0, rank: 0 };
+                    renderRAI();
+                    break;
+                case 'dataprotection':
+                    africanCountriesData.dataProtection[country] = { status: 'draft', law: '', year: null };
+                    renderDataProtection();
+                    break;
+                case 'aistrategy':
+                    africanCountriesData.aiStrategy[country] = { status: 'planning', name: '', year: null };
+                    renderAIStrategy();
+                    break;
+                case 'aisafety':
+                    africanCountriesData.aiSafetyInitiatives[country] = { 
+                        hasEvidence: false, 
+                        governmentFrameworks: false, 
+                        governmentActions: false, 
+                        nonStateActors: false 
+                    };
+                    renderAISafety();
+                    break;
+            }
+            showStatus('Added new entry', 'success');
+        }
+        
+        function saveChanges() {
+            const dataStr = `// ============================================
+// DATA STRUCTURE
+// ============================================
+
+const africanCountriesData = ${JSON.stringify(africanCountriesData, null, 4)};
+
+// Country name mappings - SVG ID to Data name
+const countryNameMap = ${JSON.stringify(countryNameMap, null, 4)};
+
+// Get standardized country name
+function getStandardizedName(name) {
+    // If it's an SVG ID (lowercase with hyphens), use the map
+    const lowerName = name.toLowerCase().replace(/\\s+/g, '-');
+    if (countryNameMap[lowerName]) {
+        return countryNameMap[lowerName];
+    }
+    // Otherwise return the name as-is
+    return name;
+}
+
+// Calculate statistics
+function calculateStatistics() {
+    const scores = Object.values(africanCountriesData.raiIndex).map(d => d.score);
+    return {
+        count: scores.length,
+        average: (scores.reduce((a, b) => a + b, 0) / scores.length).toFixed(2),
+        max: Math.max(...scores).toFixed(2),
+        min: Math.min(...scores).toFixed(2),
+        dataProtectionCount: Object.keys(africanCountriesData.dataProtection).filter(
+            k => africanCountriesData.dataProtection[k].status === "enacted"
+        ).length,
+        aiStrategyCount: Object.keys(africanCountriesData.aiStrategy).filter(
+            k => africanCountriesData.aiStrategy[k].status === "implemented"
+        ).length,
+        aiSafetyCount: Object.keys(africanCountriesData.aiSafetyInitiatives).length
+    };
+}
+
+// Get country data by metric
+function getCountryData(countryName, metric) {
+    const standardName = getStandardizedName(countryName);
+    
+    switch(metric) {
+        case 'rai':
+            return africanCountriesData.raiIndex[standardName] || null;
+        case 'dataprotection':
+            return africanCountriesData.dataProtection[standardName] || null;
+        case 'aistrategy':
+            return africanCountriesData.aiStrategy[standardName] || null;
+        case 'aisafety':
+            return africanCountriesData.aiSafetyInitiatives[standardName] || null;
+        default:
+            return null;
+    }
+}
+
+// Get data protection law link
+function getDataProtectionLink(countryName) {
+    const standardName = getStandardizedName(countryName);
+    return africanCountriesData.dataProtectionLinks[standardName] || null;
+}
+
+// Get color class based on metric and value
+function getColorClass(metric, data) {
+    if (!data) return 'no-data';
+    
+    switch(metric) {
+        case 'rai':
+            const score = data.score;
+            if (score >= 20) return 'rai-very-high';
+            if (score >= 10) return 'rai-high';
+            if (score >= 5) return 'rai-medium';
+            if (score >= 2) return 'rai-low';
+            return 'rai-very-low';
+            
+        case 'dataprotection':
+            return data.status === 'enacted' ? 'dp-enacted' : 
+                   data.status === 'draft' ? 'dp-draft' : 'dp-none';
+            
+        case 'aistrategy':
+            return data.status === 'implemented' ? 'ai-implemented' : 
+                   data.status === 'planning' ? 'ai-planning' : 'ai-none';
+        
+        case 'aisafety':
+            return data.hasEvidence ? 'safety-yes' : 'safety-no';
+            
+        default:
+            return 'no-data';
+    }
+}
+
+// Export data for use in other scripts
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {
+        africanCountriesData,
+        getCountryData,
+        getColorClass,
+        calculateStatistics,
+        getStandardizedName,
+        getDataProtectionLink
+    };
+}`;
+
+            // Create download
+            const blob = new Blob([dataStr], { type: 'text/javascript' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'data.js';
+            a.click();
+            
+            showStatus('💾 Changes saved! Download data.js and replace the file in your project.', 'success');
+            setTimeout(() => {
+                alert('To apply changes:\n1. Download completed\n2. Replace data.js in your project folder\n3. Commit and push to GitHub\n4. Changes will appear live in 2-3 minutes');
+            }, 500);
+        }
+        
+        function resetChanges() {
+            if (confirm('Reset all changes?')) {
+                africanCountriesData = JSON.parse(JSON.stringify(dataBackup));
+                renderAll();
+                showStatus('Reset complete', 'success');
+            }
+        }
+        
+        function exportData() {
+            const csv = generateCSV();
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'ai_safety_data_export.csv';
+            a.click();
+            showStatus('Exported to CSV', 'success');
+        }
+        
+        function generateCSV() {
+            let csv = 'Country,RAI Score,RAI Rank,DP Status,DP Law,DP Year,DP Link,AI Strategy Status,AI Strategy Name,AI Strategy Year,Safety Evidence,Gov Frameworks,Gov Actions,Non-State Actors\n';
+            
+            const allCountries = new Set([
+                ...Object.keys(africanCountriesData.raiIndex),
+                ...Object.keys(africanCountriesData.dataProtection),
+                ...Object.keys(africanCountriesData.aiStrategy),
+                ...Object.keys(africanCountriesData.aiSafetyInitiatives)
+            ]);
+            
+            allCountries.forEach(country => {
+                const rai = africanCountriesData.raiIndex[country];
+                const dp = africanCountriesData.dataProtection[country];
+                const ai = africanCountriesData.aiStrategy[country];
+                const safety = africanCountriesData.aiSafetyInitiatives[country];
+                const link = africanCountriesData.dataProtectionLinks[country];
+                
+                csv += `"${country}",`;
+                csv += `${rai ? rai.score : ''},${rai ? rai.rank : ''},`;
+                csv += `${dp ? dp.status : ''},"${dp ? dp.law : ''}",${dp ? dp.year || '' : ''},"${link || ''}",`;
+                csv += `${ai ? ai.status : ''},"${ai ? ai.name : ''}",${ai ? ai.year || '' : ''},`;
+                csv += `${safety ? (safety.hasEvidence ? 'Yes' : 'No') : 'No'},`;
+                csv += `${safety ? (safety.governmentFrameworks ? 'Yes' : 'No') : 'No'},`;
+                csv += `${safety ? (safety.governmentActions ? 'Yes' : 'No') : 'No'},`;
+                csv += `${safety ? (safety.nonStateActors ? 'Yes' : 'No') : 'No'}\n`;
+            });
+            
+            return csv;
+        }
+        
+        function setupSearch() {
+            const searchBox = document.getElementById('searchBox');
+            searchBox.addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase();
+                document.querySelectorAll('.country-card').forEach(card => {
+                    const countryName = card.querySelector('h3').textContent.toLowerCase();
+                    card.style.display = countryName.includes(query) ? 'block' : 'none';
+                });
+            });
+        }
+        
+        function showStatus(message, type) {
+            const status = document.getElementById('status');
+            status.textContent = message;
+            status.className = `status ${type}`;
+            setTimeout(() => {
+                status.className = 'status';
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
