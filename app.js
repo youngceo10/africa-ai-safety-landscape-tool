@@ -200,6 +200,7 @@ function getRaiSection(raiData) {
             <div class="metric-label">RAI Index Score</div>
             <div class="metric-value">${raiData.score}</div>
             <div class="metric-detail">Global Rank: #${raiData.rank}</div>
+            <div class="metric-detail"><a href="https://www.global-index.ai/" target="_blank" rel="noopener noreferrer">View Source →</a></div>
         </div>
     `;
 }
