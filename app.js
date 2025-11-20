@@ -125,11 +125,11 @@ function updateLegend(metric) {
                     <span>No Strategy</span>
                 </div>
                 <div class="legend-item">
-                    <div class="legend-color" style="background: rgba(255, 99, 71, 0.4);"></div>
+                    <div class="legend-color" style="background: rgba(254, 254, 25, 0.4);"></div>
                     <span>Planning Phase</span>
                 </div>
                 <div class="legend-item">
-                    <div class="legend-color" style="background: #182C58;"></div>
+                    <div class="legend-color" style="background: #FEFE19;"></div>
                     <span>Implemented</span>
                 </div>
             `;

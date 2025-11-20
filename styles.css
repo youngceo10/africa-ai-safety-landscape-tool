@@ -241,8 +241,8 @@ body {
 
 /* AI Strategy Colors */
 .country.ai-none { fill: var(--navy-10); }
-.country.ai-planning { fill: var(--red-40); }
-.country.ai-implemented { fill: var(--ej-navy); }
+.country.ai-planning { fill: rgba(254, 254, 25, 0.4); }
+.country.ai-implemented { fill: var(--ej-yellow); }
 
 /* AI Safety Initiatives Colors */
 .country.safety-no { fill: var(--navy-10); }
