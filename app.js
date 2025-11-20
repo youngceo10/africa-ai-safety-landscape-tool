@@ -8,11 +8,14 @@ let selectedCountry = null;
 // INITIALIZATION
 // ============================================
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('🚀 App initializing...');
+    console.log('initializeMap exists:', typeof initializeMap);
     initializeMap();
     setupEventListeners();
     updateMapColors(currentMetric);
     updateLegend(currentMetric);
     updateStatistics();
+    console.log('✅ App initialized');
 });
 
 // ============================================
