@@ -80,6 +80,36 @@ const africanCountriesData = {
         "Ghana": { status: "planning", name: "National AI Strategy (in development)", year: null },
         "Senegal": { status: "planning", name: "Digital Senegal 2025 Strategy", year: null },
         "Nigeria": { status: "planning", name: "National AI Strategy (in development)", year: null }
+    },
+
+    // AI Safety Initiatives (Evidence of activities to advance AI safety, accuracy and reliability)
+    // Based on: Government frameworks, Government actions, and Non-state actors
+    aiSafetyInitiatives: {
+        "South Africa": { hasEvidence: true, governmentFrameworks: true, governmentActions: true, nonStateActors: true },
+        "Morocco": { hasEvidence: true, governmentFrameworks: true, governmentActions: true, nonStateActors: false },
+        "Benin": { hasEvidence: true, governmentFrameworks: true, governmentActions: false, nonStateActors: false },
+        "Senegal": { hasEvidence: true, governmentFrameworks: true, governmentActions: true, nonStateActors: false },
+        "Rwanda": { hasEvidence: true, governmentFrameworks: true, governmentActions: true, nonStateActors: true },
+        "Tunisia": { hasEvidence: true, governmentFrameworks: true, governmentActions: true, nonStateActors: false },
+        "Egypt": { hasEvidence: true, governmentFrameworks: true, governmentActions: true, nonStateActors: false },
+        "Kenya": { hasEvidence: true, governmentFrameworks: true, governmentActions: true, nonStateActors: true },
+        "Nigeria": { hasEvidence: true, governmentFrameworks: true, governmentActions: true, nonStateActors: true },
+        "Mauritius": { hasEvidence: true, governmentFrameworks: true, governmentActions: true, nonStateActors: false },
+        "Ghana": { hasEvidence: true, governmentFrameworks: true, governmentActions: false, nonStateActors: true }
+    },
+
+    // Data Protection Law Links
+    dataProtectionLinks: {
+        "South Africa": "https://popia.co.za/",
+        "Morocco": "https://www.cndp.ma/",
+        "Senegal": "https://www.cdp.sn/",
+        "Rwanda": "https://ncsa.gov.rw/",
+        "Tunisia": "https://www.inpdp.nat.tn/",
+        "Egypt": "https://www.egypt.gov.eg/",
+        "Kenya": "https://www.odpc.go.ke/",
+        "Nigeria": "https://ndpr.nitda.gov.ng/",
+        "Mauritius": "https://dataprotection.govmu.org/",
+        "Ghana": "https://www.dataprotection.org.gh/"
     }
 };
 
@@ -166,7 +196,8 @@ function calculateStatistics() {
         ).length,
         aiStrategyCount: Object.keys(africanCountriesData.aiStrategy).filter(
             k => africanCountriesData.aiStrategy[k].status === "implemented"
-        ).length
+        ).length,
+        aiSafetyCount: Object.keys(africanCountriesData.aiSafetyInitiatives).length
     };
 }
 
@@ -181,9 +212,17 @@ function getCountryData(countryName, metric) {
             return africanCountriesData.dataProtection[standardName] || null;
         case 'aistrategy':
             return africanCountriesData.aiStrategy[standardName] || null;
+        case 'aisafety':
+            return africanCountriesData.aiSafetyInitiatives[standardName] || null;
         default:
             return null;
     }
+}
+
+// Get data protection law link
+function getDataProtectionLink(countryName) {
+    const standardName = getStandardizedName(countryName);
+    return africanCountriesData.dataProtectionLinks[standardName] || null;
 }
 
 // Get color class based on metric and value
@@ -206,6 +245,9 @@ function getColorClass(metric, data) {
         case 'aistrategy':
             return data.status === 'implemented' ? 'ai-implemented' : 
                    data.status === 'planning' ? 'ai-planning' : 'ai-none';
+        
+        case 'aisafety':
+            return data.hasEvidence ? 'safety-yes' : 'safety-no';
             
         default:
             return 'no-data';

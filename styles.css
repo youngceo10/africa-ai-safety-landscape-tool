@@ -244,6 +244,10 @@ body {
 .country.ai-planning { fill: var(--red-40); }
 .country.ai-implemented { fill: var(--ej-navy); }
 
+/* AI Safety Initiatives Colors */
+.country.safety-no { fill: var(--navy-10); }
+.country.safety-yes { fill: var(--ej-navy); }
+
 /* ============================================
    INFO PANEL
    ============================================ */

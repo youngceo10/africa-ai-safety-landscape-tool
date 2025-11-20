@@ -131,6 +131,19 @@ function updateLegend(metric) {
                 </div>
             `;
             break;
+        
+        case 'aisafety':
+            legendHTML += `
+                <div class="legend-item">
+                    <div class="legend-color" style="background: rgba(24, 44, 88, 0.1);"></div>
+                    <span>No Evidence (30 countries)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #182C58;"></div>
+                    <span>Has Evidence (11 countries)</span>
+                </div>
+            `;
+            break;
     }
     
     legendContainer.innerHTML = legendHTML;
@@ -148,6 +161,8 @@ function updateInfoPanel(countryName) {
     const raiData = getCountryData(countryName, 'rai');
     const dpData = getCountryData(countryName, 'dataprotection');
     const aiData = getCountryData(countryName, 'aistrategy');
+    const safetyData = getCountryData(countryName, 'aisafety');
+    const dpLink = getDataProtectionLink(countryName);
     
     let infoHTML = `
         <div class="info-content fade-in">
@@ -176,12 +191,14 @@ function updateInfoPanel(countryName) {
     if (dpData) {
         const statusClass = dpData.status === 'enacted' ? 'positive' : 'neutral';
         const statusText = dpData.status === 'enacted' ? 'Enacted' : 'Draft';
+        const linkHTML = dpLink ? `<div class="metric-detail"><a href="${dpLink}" target="_blank" style="color: #FF6347; text-decoration: underline;">View Law →</a></div>` : '';
         infoHTML += `
             <div class="info-metric">
                 <div class="metric-label">Data Protection Law</div>
                 <div class="metric-status ${statusClass}">${statusText}</div>
                 <div class="metric-detail">${dpData.law}</div>
                 ${dpData.year ? `<div class="metric-detail">Year: ${dpData.year}</div>` : ''}
+                ${linkHTML}
             </div>
         `;
     } else {
@@ -210,6 +227,29 @@ function updateInfoPanel(countryName) {
             <div class="info-metric">
                 <div class="metric-label">AI Strategy</div>
                 <div class="metric-detail">No strategy identified</div>
+            </div>
+        `;
+    }
+    
+    // AI Safety Initiatives Section
+    if (safetyData) {
+        const pillars = [];
+        if (safetyData.governmentFrameworks) pillars.push('Gov. Frameworks');
+        if (safetyData.governmentActions) pillars.push('Gov. Actions');
+        if (safetyData.nonStateActors) pillars.push('Non-State Actors');
+        
+        infoHTML += `
+            <div class="info-metric">
+                <div class="metric-label">AI Safety Initiatives</div>
+                <div class="metric-status positive">Evidence Found</div>
+                <div class="metric-detail">Active in: ${pillars.join(', ')}</div>
+            </div>
+        `;
+    } else {
+        infoHTML += `
+            <div class="info-metric">
+                <div class="metric-label">AI Safety Initiatives</div>
+                <div class="metric-detail">No evidence found</div>
             </div>
         `;
     }
