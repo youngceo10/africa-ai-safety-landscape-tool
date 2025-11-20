@@ -153,59 +153,44 @@ function updateInfoPanel(countryName) {
     const aiData = getCountryData(countryName, 'aistrategy');
     const dpLink = getDataProtectionLink(countryName);
     
+    console.log('Country:', standardName, 'DP Link:', dpLink);
+    
     let infoHTML = `
         <div class="info-content fade-in">
             <h3 class="info-title">${standardName}</h3>
     `;
     
-    // Show current metric first
-    if (currentMetric === 'rai' && raiData) {
-        infoHTML += getRaiSection(raiData);
-    } else if (currentMetric === 'dataprotection' && dpData) {
-        infoHTML += getDpSection(dpData, dpLink);
-    } else if (currentMetric === 'aistrategy' && aiData) {
-        infoHTML += getAiSection(aiData);
+    // Always show current metric first (even if no data)
+    if (currentMetric === 'rai') {
+        infoHTML += raiData ? getRaiSection(raiData) : getNoDataSection('RAI Index Score');
+    } else if (currentMetric === 'dataprotection') {
+        infoHTML += dpData ? getDpSection(dpData, dpLink) : getNoDataSection('Data Protection Law', 'No legislation identified');
+    } else if (currentMetric === 'aistrategy') {
+        infoHTML += aiData ? getAiSection(aiData) : getNoDataSection('AI Strategy', 'No strategy identified');
     }
     
     // Then show other metrics
-    if (currentMetric !== 'rai' && raiData) {
-        infoHTML += getRaiSection(raiData);
+    if (currentMetric !== 'rai') {
+        infoHTML += raiData ? getRaiSection(raiData) : getNoDataSection('RAI Index Score');
     }
-    if (currentMetric !== 'dataprotection' && dpData) {
-        infoHTML += getDpSection(dpData, dpLink);
+    if (currentMetric !== 'dataprotection') {
+        infoHTML += dpData ? getDpSection(dpData, dpLink) : getNoDataSection('Data Protection Law', 'No legislation identified');
     }
-    if (currentMetric !== 'aistrategy' && aiData) {
-        infoHTML += getAiSection(aiData);
-    }
-    
-    // Show "No data" messages for missing metrics
-    if (!raiData) {
-        infoHTML += `
-            <div class="info-metric">
-                <div class="metric-label">RAI Index Score</div>
-                <div class="metric-detail">No data available</div>
-            </div>
-        `;
-    }
-    if (!dpData) {
-        infoHTML += `
-            <div class="info-metric">
-                <div class="metric-label">Data Protection Law</div>
-                <div class="metric-detail">No legislation identified</div>
-            </div>
-        `;
-    }
-    if (!aiData) {
-        infoHTML += `
-            <div class="info-metric">
-                <div class="metric-label">AI Strategy</div>
-                <div class="metric-detail">No strategy identified</div>
-            </div>
-        `;
+    if (currentMetric !== 'aistrategy') {
+        infoHTML += aiData ? getAiSection(aiData) : getNoDataSection('AI Strategy', 'No strategy identified');
     }
     
     infoHTML += '</div>';
     infoPanel.innerHTML = infoHTML;
+}
+
+function getNoDataSection(label, message = 'No data available') {
+    return `
+        <div class="info-metric">
+            <div class="metric-label">${label}</div>
+            <div class="metric-detail">${message}</div>
+        </div>
+    `;
 }
 
 function getRaiSection(raiData) {
