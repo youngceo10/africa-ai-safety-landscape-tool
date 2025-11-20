@@ -1,0 +1,675 @@
+/* ============================================
+   ENCODE JUSTICE BRAND COLORS
+   ============================================ */
+:root {
+    /* Primary Colors */
+    --ej-navy: #182C58;
+    --ej-red: #FF6347;
+    --ej-yellow: #FEFE19;
+    
+    /* Background Colors */
+    --ej-cream: #FFFAE9;
+    
+    /* Navy Tints */
+    --navy-75: rgba(24, 44, 88, 0.75);
+    --navy-50: rgba(24, 44, 88, 0.5);
+    --navy-25: rgba(24, 44, 88, 0.25);
+    --navy-10: rgba(24, 44, 88, 0.1);
+    
+    /* Red Tints */
+    --red-40: rgba(255, 99, 71, 0.4);
+    --red-60: rgba(255, 99, 71, 0.6);
+    --red-80: rgba(255, 99, 71, 0.8);
+    
+    /* Neutrals */
+    --ej-black: #000000;
+    --ej-white: #FFFFFF;
+    
+    /* Functional Colors */
+    --text-primary: var(--ej-navy);
+    --text-secondary: var(--navy-75);
+    --text-muted: var(--navy-50);
+    --bg-primary: var(--ej-cream);
+    --bg-secondary: var(--ej-white);
+    
+    /* Spacing System (Swiss Design Grid - 8px base) */
+    --space-xs: 0.5rem;   /* 8px */
+    --space-sm: 1rem;     /* 16px */
+    --space-md: 1.5rem;   /* 24px */
+    --space-lg: 2rem;     /* 32px */
+    --space-xl: 3rem;     /* 48px */
+    --space-xxl: 4rem;    /* 64px */
+    
+    /* Typography */
+    --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-size-xs: 0.75rem;    /* 12px */
+    --font-size-sm: 0.875rem;   /* 14px */
+    --font-size-base: 1rem;     /* 16px */
+    --font-size-lg: 1.125rem;   /* 18px */
+    --font-size-xl: 1.5rem;     /* 24px */
+    --font-size-xxl: 2rem;      /* 32px */
+    --font-size-xxxl: 3rem;     /* 48px */
+}
+
+/* ============================================
+   RESET & BASE STYLES
+   ============================================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* ============================================
+   LAYOUT
+   ============================================ */
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: var(--space-lg);
+}
+
+/* ============================================
+   HEADER
+   ============================================ */
+.header {
+    text-align: center;
+    margin-bottom: var(--space-xxl);
+    padding: var(--space-xl) 0;
+    border-bottom: 1px solid var(--navy-25);
+}
+
+.title {
+    font-size: var(--font-size-xxxl);
+    font-weight: 700;
+    color: var(--ej-navy);
+    margin-bottom: var(--space-sm);
+    letter-spacing: -0.02em;
+}
+
+.subtitle {
+    font-size: var(--font-size-lg);
+    color: var(--text-secondary);
+    font-weight: 400;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* ============================================
+   CONTROL PANEL
+   ============================================ */
+.control-panel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-lg);
+    margin-bottom: var(--space-xl);
+    padding: var(--space-lg);
+    background: var(--bg-secondary);
+    border-radius: 2px;
+    border: 1px solid var(--navy-10);
+}
+
+.metric-selector {
+    display: flex;
+    gap: var(--space-sm);
+}
+
+.metric-btn {
+    flex: 1;
+    padding: var(--space-sm) var(--space-md);
+    background: transparent;
+    border: 1px solid var(--navy-25);
+    color: var(--text-primary);
+    font-family: var(--font-family);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-radius: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.metric-btn:hover {
+    background: var(--navy-10);
+    border-color: var(--ej-navy);
+}
+
+.metric-btn.active {
+    background: var(--ej-navy);
+    color: var(--ej-white);
+    border-color: var(--ej-navy);
+}
+
+.legend {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-size: var(--font-size-xs);
+    color: var(--text-secondary);
+}
+
+.legend-color {
+    width: 24px;
+    height: 12px;
+    border-radius: 1px;
+}
+
+/* ============================================
+   VISUALIZATION CONTAINER
+   ============================================ */
+.visualization-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: var(--space-lg);
+    margin-bottom: var(--space-xl);
+    min-height: 600px;
+}
+
+.map-container {
+    background: var(--bg-secondary);
+    border: 1px solid var(--navy-10);
+    border-radius: 2px;
+    padding: var(--space-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+#africaMap {
+    width: 100%;
+    height: auto;
+    max-height: 700px;
+}
+
+/* ============================================
+   MAP INTERACTIONS
+   ============================================ */
+.country {
+    cursor: pointer;
+    transition: all 0.2s ease;
+    stroke: var(--ej-white);
+    stroke-width: 0.5;
+}
+
+.country:hover {
+    opacity: 0.8;
+    stroke: var(--ej-navy);
+    stroke-width: 1.5;
+}
+
+.country.selected {
+    stroke: var(--ej-navy);
+    stroke-width: 2;
+    filter: drop-shadow(0 0 4px rgba(24, 44, 88, 0.3));
+}
+
+.country.no-data {
+    fill: var(--navy-10);
+}
+
+/* RAI Index Color Scale */
+.country.rai-very-low { fill: var(--navy-10); }
+.country.rai-low { fill: var(--navy-25); }
+.country.rai-medium { fill: var(--navy-50); }
+.country.rai-high { fill: var(--navy-75); }
+.country.rai-very-high { fill: var(--ej-navy); }
+
+/* Data Protection Colors */
+.country.dp-none { fill: var(--navy-10); }
+.country.dp-draft { fill: var(--red-40); }
+.country.dp-enacted { fill: var(--ej-red); }
+
+/* AI Strategy Colors */
+.country.ai-none { fill: var(--navy-10); }
+.country.ai-planning { fill: var(--red-40); }
+.country.ai-implemented { fill: var(--ej-navy); }
+
+/* ============================================
+   INFO PANEL
+   ============================================ */
+.info-panel {
+    background: var(--bg-secondary);
+    border: 1px solid var(--navy-10);
+    border-radius: 2px;
+    padding: var(--space-lg);
+    position: sticky;
+    top: var(--space-lg);
+    align-self: start;
+}
+
+.info-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.info-title {
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    color: var(--ej-navy);
+    margin-bottom: var(--space-xs);
+}
+
+.info-description {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    line-height: 1.7;
+}
+
+.info-metric {
+    padding: var(--space-md);
+    background: var(--bg-primary);
+    border-left: 3px solid var(--ej-red);
+    border-radius: 2px;
+}
+
+.metric-label {
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: var(--space-xs);
+}
+
+.metric-value {
+    font-size: var(--font-size-xxl);
+    font-weight: 700;
+    color: var(--ej-navy);
+}
+
+.metric-detail {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    margin-top: var(--space-xs);
+}
+
+.metric-status {
+    display: inline-block;
+    padding: var(--space-xs) var(--space-sm);
+    background: var(--ej-navy);
+    color: var(--ej-white);
+    font-size: var(--font-size-xs);
+    font-weight: 500;
+    border-radius: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.metric-status.positive {
+    background: var(--ej-navy);
+}
+
+.metric-status.neutral {
+    background: var(--navy-50);
+}
+
+.metric-status.negative {
+    background: var(--red-40);
+}
+
+/* ============================================
+   STATISTICS OVERVIEW
+   ============================================ */
+.stats-overview {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--space-lg);
+    margin-bottom: var(--space-xl);
+}
+
+.stat-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--navy-10);
+    border-radius: 2px;
+    padding: var(--space-lg);
+    text-align: center;
+    transition: all 0.2s ease;
+}
+
+.stat-card:hover {
+    border-color: var(--ej-navy);
+    transform: translateY(-2px);
+}
+
+.stat-number {
+    font-size: var(--font-size-xxxl);
+    font-weight: 700;
+    color: var(--ej-red);
+    margin-bottom: var(--space-xs);
+}
+
+.stat-label {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+.footer {
+    border-top: 1px solid var(--navy-25);
+    padding-top: var(--space-xl);
+    margin-top: var(--space-xxl);
+}
+
+.sources {
+    margin-bottom: var(--space-lg);
+}
+
+.sources h4 {
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    color: var(--ej-navy);
+    margin-bottom: var(--space-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.source-list {
+    list-style: none;
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+}
+
+.source-list li {
+    margin-bottom: var(--space-xs);
+    padding-left: var(--space-sm);
+    border-left: 2px solid var(--ej-red);
+}
+
+.source-list a {
+    color: var(--ej-navy);
+    text-decoration: none;
+    border-bottom: 1px solid var(--navy-25);
+    transition: border-color 0.2s ease;
+}
+
+.source-list a:hover {
+    border-color: var(--ej-navy);
+}
+
+.attribution {
+    text-align: center;
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+/* Tablet (landscape) */
+@media (max-width: 1200px) {
+    .container {
+        max-width: 100%;
+        padding: var(--space-md);
+    }
+    
+    .visualization-container {
+        gap: var(--space-md);
+    }
+}
+
+/* Tablet (portrait) */
+@media (max-width: 1024px) {
+    .visualization-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .info-panel {
+        position: static;
+    }
+    
+    .control-panel {
+        grid-template-columns: 1fr;
+        gap: var(--space-md);
+    }
+    
+    .map-container {
+        min-height: 400px;
+    }
+    
+    #africaMap {
+        max-height: 500px;
+    }
+}
+
+/* Mobile (landscape) */
+@media (max-width: 768px) {
+    .container {
+        padding: var(--space-sm);
+    }
+    
+    .header {
+        padding: var(--space-md) 0;
+        margin-bottom: var(--space-lg);
+    }
+    
+    .title {
+        font-size: var(--font-size-xxl);
+        margin-bottom: var(--space-xs);
+    }
+    
+    .subtitle {
+        font-size: var(--font-size-base);
+    }
+    
+    .control-panel {
+        padding: var(--space-md);
+        gap: var(--space-sm);
+    }
+    
+    .metric-selector {
+        flex-direction: column;
+    }
+    
+    .metric-btn {
+        width: 100%;
+        padding: var(--space-md);
+        font-size: var(--font-size-base);
+    }
+    
+    .legend {
+        gap: var(--space-sm);
+    }
+    
+    .stats-overview {
+        grid-template-columns: 1fr;
+        gap: var(--space-md);
+    }
+    
+    .visualization-container {
+        gap: var(--space-sm);
+        min-height: 0;
+    }
+    
+    .map-container {
+        padding: var(--space-sm);
+        min-height: 300px;
+    }
+    
+    #africaMap {
+        max-height: 400px;
+    }
+    
+    .info-panel {
+        padding: var(--space-md);
+    }
+    
+    .info-title {
+        font-size: var(--font-size-lg);
+    }
+    
+    .metric-value {
+        font-size: var(--font-size-xl);
+    }
+    
+    .stat-number {
+        font-size: var(--font-size-xxl);
+    }
+}
+
+/* Mobile (portrait) */
+@media (max-width: 480px) {
+    .container {
+        padding: var(--space-xs);
+    }
+    
+    .header {
+        padding: var(--space-sm) 0;
+        margin-bottom: var(--space-md);
+    }
+    
+    .title {
+        font-size: var(--font-size-xl);
+    }
+    
+    .subtitle {
+        font-size: var(--font-size-sm);
+    }
+    
+    .control-panel {
+        padding: var(--space-sm);
+    }
+    
+    .metric-btn {
+        padding: var(--space-sm);
+        font-size: var(--font-size-sm);
+    }
+    
+    .legend {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-xs);
+    }
+    
+    .legend-item {
+        font-size: 0.7rem;
+    }
+    
+    .map-container {
+        padding: var(--space-xs);
+        min-height: 250px;
+    }
+    
+    #africaMap {
+        max-height: 300px;
+    }
+    
+    .info-panel {
+        padding: var(--space-sm);
+    }
+    
+    .info-content {
+        gap: var(--space-sm);
+    }
+    
+    .info-metric {
+        padding: var(--space-sm);
+    }
+    
+    .stat-card {
+        padding: var(--space-md);
+    }
+    
+    .stat-number {
+        font-size: var(--font-size-xl);
+    }
+    
+    .footer {
+        padding-top: var(--space-md);
+        margin-top: var(--space-lg);
+    }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+    .metric-btn,
+    .country {
+        cursor: default;
+    }
+    
+    .metric-btn {
+        padding: var(--space-md);
+        min-height: 44px; /* Minimum touch target size */
+    }
+    
+    .country {
+        stroke-width: 1;
+    }
+    
+    .country:active {
+        opacity: 0.7;
+    }
+}
+
+/* High DPI screens */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    body {
+        -webkit-font-smoothing: subpixel-antialiased;
+    }
+}
+
+/* Print styles */
+@media print {
+    .control-panel,
+    .footer {
+        display: none;
+    }
+    
+    body {
+        background: white;
+    }
+    
+    .container {
+        max-width: 100%;
+    }
+    
+    .visualization-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+.hidden {
+    display: none !important;
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

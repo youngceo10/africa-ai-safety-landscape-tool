@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="Interactive visualization of AI Safety, governance, and regulations across Africa. Explore RAI Index scores, data protection laws, and AI strategies for African countries.">
+    <meta name="keywords" content="AI Safety, Africa, RAI Index, Data Protection, AI Strategy, Encode Justice">
+    <meta name="author" content="Encode Justice">
+    <meta name="theme-color" content="#182C58">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="AI Safety in Africa | Interactive Data Visualization">
+    <meta property="og:description" content="Exploring AI Governance, Regulations, and Safety Initiatives Across the Continent">
+    <meta property="og:type" content="website">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="AI Safety in Africa">
+    <meta name="twitter:description" content="Interactive visualization of AI governance across African nations">
+    
+    <title>AI Safety in Africa | Interactive Data Visualization</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1 class="title">AI Safety in Africa</h1>
+            <p class="subtitle">Exploring AI Governance, Regulations, and Safety Initiatives Across the Continent</p>
+        </header>
+
+        <!-- Control Panel -->
+        <div class="control-panel">
+            <div class="metric-selector">
+                <button class="metric-btn active" data-metric="rai">RAI Index</button>
+                <button class="metric-btn" data-metric="dataprotection">Data Protection Laws</button>
+                <button class="metric-btn" data-metric="aistrategy">AI Strategy</button>
+            </div>
+            
+            <div class="legend" id="legend">
+                <!-- Legend will be dynamically populated -->
+            </div>
+        </div>
+
+        <!-- Main Visualization Area -->
+        <div class="visualization-container">
+            <div class="map-container" id="africa-map">
+                <!-- Africa map SVG will be inserted here -->
+            </div>
+
+            <!-- Info Panel -->
+            <div class="info-panel" id="infoPanel">
+                <div class="info-content">
+                    <h3 class="info-title">Select a country</h3>
+                    <p class="info-description">Click on any country to view detailed AI safety metrics</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics Overview -->
+        <div class="stats-overview">
+            <div class="stat-card">
+                <div class="stat-number" id="countriesWithData">41</div>
+                <div class="stat-label">Countries with RAI Data</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="avgScore">5.8</div>
+                <div class="stat-label">Average RAI Index Score</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="topScore">27.61</div>
+                <div class="stat-label">Highest RAI Index (South Africa)</div>
+            </div>
+        </div>
+
+        <!-- Data Sources -->
+        <footer class="footer">
+            <div class="sources">
+                <h4>Data Sources</h4>
+                <ul class="source-list">
+                    <li>RAI Index: <a href="#" target="_blank">Responsible AI Index 2024</a></li>
+                    <li>Data Protection Laws: Compiled from national legislative databases</li>
+                    <li>AI Strategy: National AI strategy documents and policy frameworks</li>
+                </ul>
+            </div>
+            <div class="attribution">
+                <p>Visualization by Encode Justice Africa | Last updated: November 2025</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="map.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
