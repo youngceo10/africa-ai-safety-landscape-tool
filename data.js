@@ -59,11 +59,16 @@ const africanCountriesData = {
         "Nigeria": { status: "enacted", law: "Nigeria Data Protection Regulation (NDPR)", year: 2019 },
         "Rwanda": { status: "enacted", law: "Law on Protection of Personal Data and Privacy", year: 2021 },
         "Mauritius": { status: "enacted", law: "Data Protection Act", year: 2017 },
-        "Benin": { status: "enacted", law: "Digital Code", year: 2018 },
+        "Benin": { status: "enacted", law: "Digital Code - Data Protection Law", year: 2023 },
         "Egypt": { status: "enacted", law: "Personal Data Protection Law", year: 2020 },
-        "Angola": { status: "enacted", law: "Law on Personal Data Protection", year: 2011 },
-        "Burkina Faso": { status: "enacted", law: "Law on Personal Data Protection", year: 2004 },
-        "Algeria": { status: "draft", law: "Draft Data Protection Law", year: null },
+        "Angola": { status: "enacted", law: "Law 22/11 - Personal Data Protection Legislation", year: 2011 },
+        "Botswana": { status: "enacted", law: "Data Protection Act 32 of 2018", year: 2018 },
+        "Burkina Faso": { status: "enacted", law: "Law on Personal Data Protection", year: 2021 },
+        "Algeria": { status: "enacted", law: "Law 18-07 on Personal Data Protection", year: 2025 },
+        "Central African Republic": { status: "enacted", law: "Law No. 24.001 on Protection of Personal Data", year: 2024 },
+        "Chad": { status: "enacted", law: "Data Protection Law", year: 2015 },
+        "Côte d'Ivoire": { status: "enacted", law: "Data Protection Law", year: 2013 },
+        "Equatorial Guinea": { status: "enacted", law: "Data Protection Law", year: 2016 },
         "Ethiopia": { status: "draft", law: "Draft Data Protection Proclamation", year: null },
         "Tanzania": { status: "draft", law: "Draft Data Protection Act", year: null },
         "Uganda": { status: "draft", law: "Draft Data Protection and Privacy Bill", year: null }
@@ -79,7 +84,10 @@ const africanCountriesData = {
         "South Africa": { status: "planning", name: "Presidential Commission on 4IR", year: null },
         "Ghana": { status: "planning", name: "National AI Strategy (in development)", year: null },
         "Senegal": { status: "planning", name: "Digital Senegal 2025 Strategy", year: null },
-        "Nigeria": { status: "planning", name: "National AI Strategy (in development)", year: null }
+        "Nigeria": { status: "planning", name: "National AI Strategy (in development)", year: null },
+        "Algeria": { status: "implemented", name: "National Strategy for Artificial Intelligence", year: 2024 },
+        "Benin": { status: "implemented", name: "National AI and Big Data Strategy 2023-2027", year: 2023 },
+        "Cameroon": { status: "implemented", name: "AI Roadmap 2040", year: 2025 }
     },
 
     // AI Safety Initiatives (Evidence of activities to advance AI safety, accuracy and reliability)
@@ -109,7 +117,28 @@ const africanCountriesData = {
         "Kenya": "https://www.odpc.go.ke/",
         "Nigeria": "https://ndpr.nitda.gov.ng/",
         "Mauritius": "https://dataprotection.govmu.org/",
-        "Ghana": "https://www.dataprotection.org.gh/"
+        "Ghana": "https://www.dataprotection.org.gh/",
+        "Algeria": "https://anpdp.dz/ar/",
+        "Angola": "https://www.rapdp.org/sites/default/files/2021-07/Angolan%20Personal%20Data%20Protection%20Legislation%20-%20Law%2022_11%20of%2017th%20June_0.pdf",
+        "Benin": "https://asin.bj/documents/",
+        "Botswana": "https://www.bocra.org.bw/sites/default/files/documents/32%20Act%2010-08-2018-Data%20Protection.pdf",
+        "Burkina Faso": "https://dataprotection.africa/burkina-faso/",
+        "Central African Republic": "https://www.techhiveadvisory.africa/insights/review-of-the-central-african-republic-data-protection-law",
+        "Chad": "https://cyrilla.org/entity/plvgmylt69g?file=1721649762781ctjegvl2qnb.pdf&page=1",
+        "Côte d'Ivoire": "https://dataprotection.africa/cote-divoire/",
+        "Equatorial Guinea": "https://cyrilla.org/entity/yf8eiw9h3g?file=1721651158058guqswwp1w6r.pdf&page=1",
+        "Egypt": "https://www.acc.com/sites/default/files/program-materials/upload/Data%20Protection%20Law%20-%20Egypt%20-%20EN%20-%20MBH.PDF"
+    },
+
+    // AI Strategy Links
+    aiStrategyLinks: {
+        "Algeria": "https://aicouncil.dz/",
+        "Benin": "https://numerique.gouv.bj/assets/documents/strategie-nationale-d'intelligence-artificielle-et-des-megadonnees-2023-2027.pdf",
+        "Cameroon": "https://techafricanews.com/2025/07/08/cameroon-unveils-2040-ai-roadmap-anchored-on-seven-strategic-pillars/",
+        "Egypt": "https://mcit.gov.eg/en/Publication/Publication_Summary/9283",
+        "Mauritius": "https://www.govmu.org/EN/Documents/Communiques/AI%20Strategy.pdf",
+        "Rwanda": "https://www.minict.gov.rw/",
+        "Tunisia": "https://www.tunisie.gov.tn/"
     }
 };
 
@@ -223,6 +252,12 @@ function getCountryData(countryName, metric) {
 function getDataProtectionLink(countryName) {
     const standardName = getStandardizedName(countryName);
     return africanCountriesData.dataProtectionLinks[standardName] || null;
+}
+
+// Get AI strategy link
+function getAiStrategyLink(countryName) {
+    const standardName = getStandardizedName(countryName);
+    return africanCountriesData.aiStrategyLinks[standardName] || null;
 }
 
 // Get color class based on metric and value

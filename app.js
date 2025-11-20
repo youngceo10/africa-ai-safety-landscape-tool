@@ -152,8 +152,9 @@ function updateInfoPanel(countryName) {
     const dpData = getCountryData(countryName, 'dataprotection');
     const aiData = getCountryData(countryName, 'aistrategy');
     const dpLink = getDataProtectionLink(countryName);
+    const aiLink = getAiStrategyLink(countryName);
     
-    console.log('Country:', standardName, 'DP Link:', dpLink);
+    console.log('Country:', standardName, 'DP Link:', dpLink, 'AI Link:', aiLink);
     
     let infoHTML = `
         <div class="info-content fade-in">
@@ -166,7 +167,7 @@ function updateInfoPanel(countryName) {
     } else if (currentMetric === 'dataprotection') {
         infoHTML += dpData ? getDpSection(dpData, dpLink) : getNoDataSection('Data Protection Law', 'No legislation identified');
     } else if (currentMetric === 'aistrategy') {
-        infoHTML += aiData ? getAiSection(aiData) : getNoDataSection('AI Strategy', 'No strategy identified');
+        infoHTML += aiData ? getAiSection(aiData, aiLink) : getNoDataSection('AI Strategy', 'No strategy identified');
     }
     
     // Then show other metrics
@@ -177,7 +178,7 @@ function updateInfoPanel(countryName) {
         infoHTML += dpData ? getDpSection(dpData, dpLink) : getNoDataSection('Data Protection Law', 'No legislation identified');
     }
     if (currentMetric !== 'aistrategy') {
-        infoHTML += aiData ? getAiSection(aiData) : getNoDataSection('AI Strategy', 'No strategy identified');
+        infoHTML += aiData ? getAiSection(aiData, aiLink) : getNoDataSection('AI Strategy', 'No strategy identified');
     }
     
     infoHTML += '</div>';
@@ -206,7 +207,7 @@ function getRaiSection(raiData) {
 function getDpSection(dpData, dpLink) {
     const statusClass = dpData.status === 'enacted' ? 'positive' : 'neutral';
     const statusText = dpData.status === 'enacted' ? 'Enacted' : 'Draft';
-    const linkHTML = dpLink ? `<div class="metric-detail"><a href="${dpLink}" target="_blank" rel="noopener noreferrer">${dpLink}</a></div>` : '';
+    const linkHTML = dpLink ? `<div class="metric-detail"><a href="${dpLink}" target="_blank" rel="noopener noreferrer">View Details →</a></div>` : '';
     return `
         <div class="info-metric">
             <div class="metric-label">Data Protection Law</div>
@@ -218,15 +219,17 @@ function getDpSection(dpData, dpLink) {
     `;
 }
 
-function getAiSection(aiData) {
+function getAiSection(aiData, aiLink) {
     const statusClass = aiData.status === 'implemented' ? 'positive' : 'neutral';
     const statusText = aiData.status === 'implemented' ? 'Implemented' : 'In Planning';
+    const linkHTML = aiLink ? `<div class="metric-detail"><a href="${aiLink}" target="_blank" rel="noopener noreferrer">View Details →</a></div>` : '';
     return `
         <div class="info-metric">
             <div class="metric-label">AI Strategy</div>
             <div class="metric-status ${statusClass}">${statusText}</div>
             <div class="metric-detail">${aiData.name}</div>
             ${aiData.year ? `<div class="metric-detail">Year: ${aiData.year}</div>` : ''}
+            ${linkHTML}
         </div>
     `;
 }
