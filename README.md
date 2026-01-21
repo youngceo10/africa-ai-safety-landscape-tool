@@ -1,32 +1,6 @@
 # AI Safety in Africa - Interactive Visualization
 
-An interactive data visualization project showcasing AI Safety metrics, governance frameworks, and regulatory landscapes across African nations. Built with Encode Justice brand identity and Swiss minimalist design principles.
-
-## 🎨 Design Philosophy
-
-### Brand Colors (Encode Justice)
-
-**Primary Colors:**
-- Navy: `#182C58` - Professional, authoritative base
-- Red: `#FF6347` - Emphasis and data highlights  
-- Yellow: `#FEFE19` - Accent for CTAs (reserved for future use)
-
-**Background:**
-- Cream: `#FFFAE9` - Standard background
-
-**Neutrals:**
-- Black: `#000000`
-- White: `#FFFFFF`
-
-**Tints:**
-- Navy variations: 75%, 50%, 25%, 10% opacity
-- Red variations: 80%, 60%, 40% opacity
-
-### Design Approach
-- **Swiss Minimalism**: Clean typography, grid-based layout, generous white space
-- **Typographic System**: Inter font family with systematic scale
-- **8px Grid System**: All spacing follows 8px increments
-- **Functional Color Use**: Data-driven color application, not decorative
+An interactive data visualization project showcasing AI Safety metrics, governance frameworks, and regulatory landscapes across African nations. Built with Encode Justice brand identity and Swiss minimalist design principles. I believe this tool will help people curious about how Africa's AI Safety landscape looks like and how they could collaborate. 
 
 ## 📊 Data Visualizations
 
@@ -55,7 +29,7 @@ Indicates national AI strategy development:
 ```
 ai-safety-africa-visualizations/
 ├── index.html          # Main HTML structure
-├── styles.css          # Swiss-minimal design system & brand colors
+├── styles.css          # Project design system & brand colors
 ├── data.js            # All data structures and helper functions
 ├── map.js             # Africa map SVG and map interactions
 ├── app.js             # Main application logic and state management
@@ -139,25 +113,6 @@ The architecture supports easy expansion:
 }
 ```
 
-## 🎨 Customization
-
-### Adding New Metrics
-1. Add data structure in `data.js`
-2. Add button in `index.html` control panel
-3. Define color scale in `styles.css`
-4. Add legend logic in `app.js` `updateLegend()` function
-5. Add info panel display in `app.js` `updateInfoPanel()` function
-
-### Styling Modifications
-All brand colors are defined as CSS custom properties in `:root` for easy theming:
-```css
-:root {
-    --ej-navy: #182C58;
-    --ej-red: #FF6347;
-    /* ... etc */
-}
-```
-
 ## 🔧 Technical Architecture
 
 ### State Management
@@ -172,16 +127,10 @@ All brand colors are defined as CSS custom properties in `:root` for easy themin
 4. `updateInfoPanel()` refreshes country details
 
 ### Performance
-- Pure CSS transitions for smooth interactions
+- CSS transitions for smooth interactions
 - Event delegation for map interactions
 - No external dependencies or API calls
 - Optimized SVG paths for fast rendering
-
-## 📱 Responsive Design
-
-- **Desktop** (1280px+): Full layout with side-by-side map and info panel
-- **Tablet** (768px-1024px): Stacked layout with sticky info panel
-- **Mobile** (< 768px): Vertical layout, optimized touch targets
 
 ## 🌍 Country Coverage
 
@@ -198,40 +147,6 @@ Countries with enacted legislation including South Africa (POPIA), Kenya, Nigeri
 Implemented: Mauritius, Egypt, Tunisia, Rwanda
 Planning: Kenya, South Africa, Ghana, Senegal, Nigeria
 
-## 📋 Future Enhancements
-
-### Planned Features
-- [ ] Direct links to legislation documents
-- [ ] AI Safety Initiatives layer
-- [ ] Timeline view of policy development
-- [ ] Comparison mode (multi-country)
-- [ ] Export/share functionality
-- [ ] Data download options
-- [ ] Advanced filtering and search
-
-### Data Expansion
-- [ ] AI research institutions
-- [ ] AI ethics frameworks
-- [ ] Government AI initiatives
-- [ ] Regional AI partnerships
-- [ ] Tech ecosystem metrics
-
-## 🤝 Contributing
-
-### Adding Data
-1. Update appropriate data structure in `data.js`
-2. Ensure country names match SVG path IDs
-3. Include source attribution
-4. Test visualization rendering
-
-### Reporting Issues
-- Incorrect data: Provide source for correction
-- Missing countries: Submit data with citations
-- UI/UX improvements: Describe expected behavior
-
-## 📄 License
-
-Data sources should be properly attributed. Check individual data source licenses for usage terms.
 
 ## 🙏 Acknowledgments
 
